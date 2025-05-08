@@ -1,0 +1,26 @@
+PriceResponse:
+  type: object
+  description: 'Price detail'
+  required:
+    - productId
+    - brandId
+    - price
+    - startDate
+    - endDate
+    - finalPrice
+  properties:
+    productId:
+      type: integer
+      format: int64
+    brandId:
+      type: integer
+      format: int32
+    price:
+      type: number
+      format: double
+    startDate:
+      type: string
+      format: date-time
+    endDate:
+      type: string
+      format: date-time
