@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * The type Get price by parameters use case.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -19,6 +22,14 @@ public class GetPriceByParametersUseCase {
   private final PriceResponseCaseDtoMapper mapper;
   private final PriceRepository repository;
 
+  /**
+   * Execute price response case dto.
+   *
+   * @param brandId     the brand id
+   * @param productId   the product id
+   * @param pricingDate the pricing date
+   * @return the price response case dto
+   */
   public PriceResponseCaseDto execute(@NotNull final Long brandId, @NotNull final Long productId,
       @NotNull final Instant pricingDate) {
     log.debug("Execute GetPriceByParametersUseCase(brandId: {}, productId: {}, pricingDate: {})",
