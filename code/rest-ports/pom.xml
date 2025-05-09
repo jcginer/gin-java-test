@@ -1,133 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>rest-ports</artifactId>
 
-	<parent>
-		<groupId>dev.gin.hexagonal.example</groupId>
-		<artifactId>gin-hexagonal-example</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+  <build>
+    <plugins>
+      <!-- Plugin para generar código a partir del contrato OpenAPI -->
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>21</source>
+          <target>21</target>
+        </configuration>
+        <version>3.11.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <apiPackage>com.example.api</apiPackage>
+              <configOptions>
+                <additionalModelTypeAnnotations>
+                  @lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor;@lombok.Builder
+                </additionalModelTypeAnnotations>
+                <generateModelMethods>false
+                </generateModelMethods> <!-- esto no siempre tiene efecto -->
+                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                <interfaceOnly>true</interfaceOnly>
+                <jakarta>true</jakarta>
+                <library>spring-boot</library>
+                <useSpringBoot3>true</useSpringBoot3>  <!-- ESTA ES LA CLAVE -->
+              </configOptions>
+              <generatorName>spring</generatorName>
+              <inputSpec>${project.basedir}/../../api-contracts/rest/v1/api.yml</inputSpec>
+              <library>spring-boot</library>
+              <modelPackage>com.example.model</modelPackage>
+              <output>${project.build.directory}/generated-sources/openapi</output>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <groupId>org.openapitools</groupId> <!-- o la última estable -->
+        <version>7.4.0</version>
+      </plugin>
+    </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
 
-	<artifactId>rest-ports</artifactId>
+    <sourceDirectory>src/main/java</sourceDirectory>
+  </build>
 
-	<name>Rest Ports Module</name>
+  <dependencies>
+    <dependency>
+      <artifactId>usecases</artifactId>
+      <groupId>${project.groupId}</groupId>
+    </dependency>
 
-	<properties>
-		<spring-boot.repackage.skip>true</spring-boot.repackage.skip>
-	</properties>
+    <dependency>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
 
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>usecases</artifactId>
-		</dependency>
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
+    <!-- OpenAPI/Swagger Annotations -->
+    <dependency>
+      <artifactId>swagger-annotations</artifactId>
+      <groupId>io.swagger.core.v3</groupId>
+      <version>2.2.21</version>
+    </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+    <!-- Nullable wrapper (for OptionalNullable<T>) -->
+    <dependency>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <groupId>org.openapitools</groupId>
+      <version>0.2.6</version>
+    </dependency>
 
-		<!-- OpenAPI/Swagger Annotations -->
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>2.2.21</version>
-		</dependency>
+    <!-- Jakarta Validation API -->
+    <dependency>
+      <artifactId>jakarta.validation-api</artifactId>
+      <groupId>jakarta.validation</groupId>
+      <version>3.0.2</version>
+    </dependency>
 
-		<!-- Nullable wrapper (for OptionalNullable<T>) -->
-		<dependency>
-			<groupId>org.openapitools</groupId>
-			<artifactId>jackson-databind-nullable</artifactId>
-			<version>0.2.6</version>
-		</dependency>
+    <!-- Jakarta Annotation API -->
+    <dependency>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <groupId>jakarta.annotation</groupId>
+      <version>2.1.1</version>
+    </dependency>
 
-		<!-- Jakarta Validation API -->
-		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
-			<version>3.0.2</version>
-		</dependency>
+    <!-- Jakarta Servlet API -->
+    <dependency>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <scope>provided</scope>
+      <version>6.0.0</version>
+    </dependency>
 
-		<!-- Jakarta Annotation API -->
-		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
-			<version>2.1.1</version>
-		</dependency>
+    <!-- lombok -->
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <scope>provided</scope>
+      <version>1.18.30</version>
+    </dependency>
+  </dependencies>
 
-		<!-- Jakarta Servlet API -->
-		<dependency>
-			<groupId>jakarta.servlet</groupId>
-			<artifactId>jakarta.servlet-api</artifactId>
-			<version>6.0.0</version>
-			<scope>provided</scope>
-		</dependency>
+  <modelVersion>4.0.0</modelVersion>
 
-		<!-- lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+  <name>Rest Ports Module</name>
 
-	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
+  <parent>
+    <artifactId>gin-hexagonal-example</artifactId>
+    <groupId>dev.gin.hexagonal.example</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
 
-		<plugins>
-			<!-- Plugin para generar código a partir del contrato OpenAPI -->
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
-				<configuration>
-					<source>21</source>
-					<target>21</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>7.4.0</version> <!-- o la última estable -->
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>${project.basedir}/../../api-contracts/rest/v1/api.yml</inputSpec>
-							<generatorName>spring</generatorName>
-							<library>spring-boot</library>
-							<apiPackage>com.example.api</apiPackage>
-							<modelPackage>com.example.model</modelPackage>
-							<output>${project.build.directory}/generated-sources/openapi</output>
-							<configOptions>
-								<useSpringBoot3>true</useSpringBoot3>
-								<jakarta>true</jakarta> <!-- esto no siempre tiene efecto -->
-								<interfaceOnly>true</interfaceOnly>
-								<additionalModelTypeAnnotations>
-									@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor;@lombok.Builder
-								</additionalModelTypeAnnotations>
-								<library>spring-boot</library>
-								<hideGenerationTimestamp>true</hideGenerationTimestamp>
-								<generateModelMethods>false</generateModelMethods>  <!-- ESTA ES LA CLAVE -->
-							</configOptions>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+  <properties>
+    <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+  </properties>
 
 </project>

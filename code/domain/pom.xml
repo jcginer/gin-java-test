@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
-	<parent>
-		<groupId>dev.gin.hexagonal.example</groupId>
-		<artifactId>gin-hexagonal-example</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>domain</artifactId>
 
-	<artifactId>domain</artifactId>
-	<name>Domain Module</name>
+  <modelVersion>4.0.0</modelVersion>
+  <name>Domain Module</name>
 
-	<properties>
-		<spring-boot.repackage.skip>true</spring-boot.repackage.skip>
-	</properties>
+  <parent>
+    <artifactId>gin-hexagonal-example</artifactId>
+    <groupId>dev.gin.hexagonal.example</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
 
+  <properties>
+    <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+  </properties>
 </project>
