@@ -2,6 +2,7 @@ package dev.gin.hexagonal.example.infrastructure.repositories;
 
 import dev.gin.hexagonal.example.domain.Price;
 import dev.gin.hexagonal.example.domain.exception.EntityNotFoundException;
+import dev.gin.hexagonal.example.domain.exception.EntityPersistenceException;
 import dev.gin.hexagonal.example.domain.service.PriceRepository;
 import dev.gin.hexagonal.example.infrastructure.repositories.entity.PriceEntity;
 import dev.gin.hexagonal.example.infrastructure.repositories.entity.PriceEntityMapper;
@@ -33,15 +34,27 @@ public class PriceRepositoryImpl implements PriceRepository {
   @Override
   public Price findByParameters(@NotNull Long brandId, @NotNull Long productId,
       @NotNull Instant pricingDate) throws EntityNotFoundException {
-    // Used LocalDateTime instead of Instant due to the behaviour of H2 database that doesn't work
-    // fine work with UTC time. PostgreSQL handles date/time types much more robustly than H2, so
-    // in case of using it, it wouldn't be required this conversion
-    LocalDateTime localDateTime = LocalDateTime.ofInstant(pricingDate, ZoneOffset.UTC);
-    return mapper.map(
-        repository.findByParameters(brandId, productId, localDateTime).stream()
-            .max(Comparator.comparing(PriceEntity::getPriority))
-            .orElseThrow(
-                () -> new EntityNotFoundException("Product Not found for the required date-time")));
+
+    List<PriceEntity> priceEntities = null;
+
+    try {
+      // Used LocalDateTime instead of Instant due to the behaviour of H2 database that doesn't work
+      // fine work with UTC time. PostgreSQL handles date/time types much more robustly than H2, so
+      // in case of using it, it wouldn't be required this conversion
+      LocalDateTime localDateTime = LocalDateTime.ofInstant(pricingDate, ZoneOffset.UTC);
+      priceEntities = repository.findByParameters(brandId, productId, localDateTime);
+    } catch (Throwable e) {
+      final String errorMessage = String.format("Error finding price for brandId: %s; "
+          + "productId: %s;  pricingDate: %s", brandId, productId, pricingDate);
+      log.warn(errorMessage, e);
+      throw new EntityPersistenceException(errorMessage);
+    }
+
+    return mapper.map(priceEntities.stream()
+        .max(Comparator.comparing(PriceEntity::getPriority))
+        .orElseThrow(
+            () -> new EntityNotFoundException(
+                "Product Not found for the required date-time")));
   }
 
   @Override

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import dev.gin.hexagonal.example.domain.Price;
 import dev.gin.hexagonal.example.domain.exception.EntityNotFoundException;
+import dev.gin.hexagonal.example.domain.exception.EntityPersistenceException;
 import dev.gin.hexagonal.example.infrastructure.repositories.entity.PriceEntity;
 import dev.gin.hexagonal.example.infrastructure.repositories.entity.PriceEntityMapper;
 import dev.gin.hexagonal.example.infrastructure.repositories.jpa.PriceJpaRepository;
@@ -62,8 +63,8 @@ class PriceRepositoryImplTest {
   void find_by_parameters_no_result() {
     // Given
     when(jpaRepository.findByParameters(TestUtils.BRAND_ID, TestUtils.PRODUCT_ID,
-        LocalDateTime.ofInstant(Instant.parse(TestUtils.END_DATE), ZoneOffset.UTC))).thenReturn(
-        List.of());
+        LocalDateTime.ofInstant(Instant.parse(TestUtils.END_DATE), ZoneOffset.UTC)))
+        .thenReturn(List.of());
 
     // When
 
@@ -73,6 +74,27 @@ class PriceRepositoryImplTest {
     });
 
     // Then
+    verify(jpaRepository).findByParameters(TestUtils.BRAND_ID, TestUtils.PRODUCT_ID,
+        LocalDateTime.ofInstant(Instant.parse(TestUtils.END_DATE), ZoneOffset.UTC));
+  }
+
+  @Test
+  void find_by_parameters_persistence_exception() {
+    // Given
+    when(jpaRepository.findByParameters(TestUtils.BRAND_ID, TestUtils.PRODUCT_ID,
+        LocalDateTime.ofInstant(Instant.parse(TestUtils.END_DATE), ZoneOffset.UTC)))
+        .thenThrow(new Throwable());
+
+    // When
+
+    assertThrows(EntityPersistenceException.class, () -> {
+      instance.findByParameters(TestUtils.BRAND_ID,
+          TestUtils.PRODUCT_ID, Instant.parse(TestUtils.END_DATE));
+    });
+
+    // Then
+    verify(jpaRepository).findByParameters(TestUtils.BRAND_ID, TestUtils.PRODUCT_ID,
+        LocalDateTime.ofInstant(Instant.parse(TestUtils.END_DATE), ZoneOffset.UTC));
   }
 
 }
