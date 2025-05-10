@@ -14,7 +14,7 @@ PriceResponse:
       format: int64
     brandId:
       type: integer
-      format: int32
+      format: int64
     price:
       type: number
       format: double
@@ -24,3 +24,8 @@ PriceResponse:
     endDate:
       type: string
       format: date-time
+    currency:
+      type: string
+    priority:
+      type: integer
+      format: int32

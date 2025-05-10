@@ -1,90 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>gin-hexagonal-example</artifactId>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <configuration>
+            <excludes>
+              <exclude>
+                <artifactId>lombok</artifactId>
+                <groupId>org.projectlombok</groupId>
+              </exclude>
+            </excludes>
+          </configuration>
+          <groupId>org.springframework.boot</groupId>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
-	<groupId>dev.gin.hexagonal.example</groupId>
-	<artifactId>gin-hexagonal-example</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+  <dependencies>
+    <dependency>
+      <artifactId>spring-boot-starter</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
 
-	<name>gin-hexagonal-example</name>
+    <dependency>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <artifactId>domain</artifactId>
+        <groupId>${project.groupId}</groupId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>usecases</artifactId>
+        <groupId>${project.groupId}</groupId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>infrastructure</artifactId>
+        <groupId>${project.groupId}</groupId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>rest-ports</artifactId>
+        <groupId>${project.groupId}</groupId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <groupId>org.springframework.cloud</groupId>
+        <scope>import</scope>
+        <type>pom</type>
+        <version>${spring-cloud.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <groupId>dev.gin.hexagonal.example</groupId>
+  <modelVersion>4.0.0</modelVersion>
 
-	<modules>
-		<module>boot</module>
-		<module>domain</module>
-		<module>usecases</module>
-		<module>infrastructure</module>
-		<module>rest-ports</module>
-	</modules>
+  <modules>
+    <module>boot</module>
+    <module>domain</module>
+    <module>usecases</module>
+    <module>infrastructure</module>
+    <module>rest-ports</module>
+  </modules>
 
-	<properties>
-		<java.version>21</java.version>
-		<plugins.compiler.version>3.10.1</plugins.compiler.version>
-	</properties>
+  <name>gin-hexagonal-example</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
+  <packaging>pom</packaging>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <relativePath/>
+    <version>3.4.5</version> <!-- lookup parent from repository -->
+  </parent>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>domain</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>usecases</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>infrastructure</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>${project.groupId}</groupId>
-				<artifactId>rest-ports</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+  <properties>
+    <java.version>21</java.version>
+    <plugins.compiler.version>3.10.1</plugins.compiler.version>
+    <spring-cloud.version>2024.0.0</spring-cloud.version>
+  </properties>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<configuration>
-						<excludes>
-							<exclude>
-								<groupId>org.projectlombok</groupId>
-								<artifactId>lombok</artifactId>
-							</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+  <version>0.0.1-SNAPSHOT</version>
 
 </project>

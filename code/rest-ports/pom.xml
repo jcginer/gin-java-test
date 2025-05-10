@@ -20,7 +20,7 @@
         <executions>
           <execution>
             <configuration>
-              <apiPackage>com.example.api</apiPackage>
+              <apiPackage>dev.gin.hexagonal.example.rest.ports.api</apiPackage>
               <configOptions>
                 <additionalModelTypeAnnotations>
                   @lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor;@lombok.Builder
@@ -36,7 +36,7 @@
               <generatorName>spring</generatorName>
               <inputSpec>${project.basedir}/../../api-contracts/rest/v1/api.yml</inputSpec>
               <library>spring-boot</library>
-              <modelPackage>com.example.model</modelPackage>
+              <modelPackage>dev.gin.hexagonal.example.rest.ports.api.model</modelPackage>
               <output>${project.build.directory}/generated-sources/openapi</output>
             </configuration>
             <goals>
@@ -73,6 +73,11 @@
       <groupId>org.springframework.boot</groupId>
     </dependency>
 
+    <dependency>
+      <artifactId>spring-cloud-starter-config</artifactId>
+      <groupId>org.springframework.cloud</groupId>
+    </dependency>
+
     <!-- OpenAPI/Swagger Annotations -->
     <dependency>
       <artifactId>swagger-annotations</artifactId>
@@ -94,6 +99,20 @@
       <scope>provided</scope>
       <version>1.18.30</version>
     </dependency>
+
+    <!-- mapstruct -->
+    <dependency>
+      <artifactId>mapstruct</artifactId>
+      <groupId>org.mapstruct</groupId>
+      <version>1.6.3</version>
+    </dependency>
+    <dependency>
+      <artifactId>mapstruct-processor</artifactId>
+      <groupId>org.mapstruct</groupId>
+      <optional>true</optional>
+      <version>1.6.3</version>
+    </dependency>
+
   </dependencies>
 
   <modelVersion>4.0.0</modelVersion>
