@@ -7,7 +7,7 @@ import java.util.UUID;
  * The type Price.
  */
 public record Price(
-    UUID priceId,
+    UUID id,
     Long brandId,
     Long productId,
     Double priceAmount,

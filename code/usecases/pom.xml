@@ -9,6 +9,8 @@
       <artifactId>domain</artifactId>
       <groupId>${project.groupId}</groupId>
     </dependency>
+
+    <!-- mapstruct -->
     <dependency>
       <artifactId>mapstruct</artifactId>
       <groupId>org.mapstruct</groupId>

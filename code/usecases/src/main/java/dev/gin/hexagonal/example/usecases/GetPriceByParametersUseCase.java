@@ -1,5 +1,6 @@
 package dev.gin.hexagonal.example.usecases;
 
+import dev.gin.hexagonal.example.domain.exception.EntityNotFoundException;
 import dev.gin.hexagonal.example.domain.service.PriceRepository;
 import dev.gin.hexagonal.example.usecases.dto.PriceResponseCaseDto;
 import dev.gin.hexagonal.example.usecases.mapper.PriceResponseCaseDtoMapper;
@@ -31,7 +32,7 @@ public class GetPriceByParametersUseCase {
    * @return the price response case dto
    */
   public PriceResponseCaseDto execute(@NotNull final Long brandId, @NotNull final Long productId,
-      @NotNull final Instant pricingDate) {
+      @NotNull final Instant pricingDate) throws EntityNotFoundException {
     log.debug("Execute GetPriceByParametersUseCase(brandId: {}, productId: {}, pricingDate: {})",
         brandId, productId, pricingDate);
 

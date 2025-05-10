@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.gin.hexagonal.example.domain.Price;
 import dev.gin.hexagonal.example.usecases.dto.PriceResponseCaseDto;
-import dev.gin.hexagonal.example.usecases.mapper.util.TestUtils;
+import dev.gin.hexagonal.example.usecases.util.TestUtils;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;

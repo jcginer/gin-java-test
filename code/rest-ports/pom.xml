@@ -87,28 +87,6 @@
       <version>0.2.6</version>
     </dependency>
 
-    <!-- Jakarta Validation API -->
-    <dependency>
-      <artifactId>jakarta.validation-api</artifactId>
-      <groupId>jakarta.validation</groupId>
-      <version>3.0.2</version>
-    </dependency>
-
-    <!-- Jakarta Annotation API -->
-    <dependency>
-      <artifactId>jakarta.annotation-api</artifactId>
-      <groupId>jakarta.annotation</groupId>
-      <version>2.1.1</version>
-    </dependency>
-
-    <!-- Jakarta Servlet API -->
-    <dependency>
-      <artifactId>jakarta.servlet-api</artifactId>
-      <groupId>jakarta.servlet</groupId>
-      <scope>provided</scope>
-      <version>6.0.0</version>
-    </dependency>
-
     <!-- lombok -->
     <dependency>
       <artifactId>lombok</artifactId>
