@@ -83,7 +83,7 @@ class PriceRepositoryImplTest {
     // Given
     when(jpaRepository.findByParameters(TestUtils.BRAND_ID, TestUtils.PRODUCT_ID,
         LocalDateTime.ofInstant(Instant.parse(TestUtils.END_DATE), ZoneOffset.UTC)))
-        .thenThrow(new Throwable());
+        .thenThrow(new RuntimeException());
 
     // When
 
