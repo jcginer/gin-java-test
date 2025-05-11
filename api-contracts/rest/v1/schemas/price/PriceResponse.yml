@@ -20,10 +20,8 @@ PriceResponse:
       format: double
     startDate:
       type: string
-      format: date-time
     endDate:
       type: string
-      format: date-time
     currency:
       type: string
     priority:
