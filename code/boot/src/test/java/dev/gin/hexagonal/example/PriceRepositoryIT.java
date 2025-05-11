@@ -3,20 +3,25 @@ package dev.gin.hexagonal.example;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.gin.hexagonal.example.domain.Price;
+import dev.gin.hexagonal.example.domain.service.PriceRepository;
 import dev.gin.hexagonal.example.util.TestUtils;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 public class PriceRepositoryIT extends IntegrationTest {
+
+  @Autowired
+  private PriceRepository priceRepository;
 
   @Test
   @Sql({"/data/remove-prices.sql", "/data/insert-prices.sql"})
   public void find_all_prices() {
     // When
-    final List<Price> allPrices = rulesRepository.findAll();
+    final List<Price> allPrices = priceRepository.findAll();
 
     // Then
     assertThat(allPrices).isNotNull();
@@ -55,7 +60,7 @@ public class PriceRepositoryIT extends IntegrationTest {
 
   private void find_by_parameters(final String givenPricingDate, final String expectedId) {
     // When
-    final Price result = rulesRepository.findByParameters(TestUtils.BRAND_ID, TestUtils.PRODUCT_ID,
+    final Price result = priceRepository.findByParameters(TestUtils.BRAND_ID, TestUtils.PRODUCT_ID,
         Instant.parse(givenPricingDate));
 
     // Then
