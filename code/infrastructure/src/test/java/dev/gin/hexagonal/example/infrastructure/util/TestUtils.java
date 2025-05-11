@@ -14,6 +14,7 @@ public class TestUtils {
   public static final String EUR = "EUR";
   public static final String START_DATE = "2020-06-14T00:00:00Z";
   public static final String END_DATE = "2020-12-31T23:59:59Z";
+  public static final String PRICING_DATE = "2020-12-31T23:59:59";
   public static final int PRIORITY = 0;
 
   public static Price getDefaultPrice(final UUID priceId) {

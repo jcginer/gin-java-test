@@ -9,12 +9,11 @@ import dev.gin.hexagonal.example.infrastructure.repositories.entity.PriceEntityM
 import dev.gin.hexagonal.example.infrastructure.repositories.jpa.PriceJpaRepository;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -30,19 +29,15 @@ public class PriceRepositoryImpl implements PriceRepository {
   private final PriceJpaRepository repository;
   private final PriceEntityMapper mapper;
 
-  // TODO: Add @Cache
   @Override
+  @Cacheable(value = "pricesCache", key = "#brandId + '--' + #productId + '--' + "
+      + "#pricingDate.toString()")
   public Price findByParameters(@NotNull Long brandId, @NotNull Long productId,
       @NotNull Instant pricingDate) throws EntityNotFoundException {
 
-    List<PriceEntity> priceEntities = null;
-
+    Optional<PriceEntity> optionalPriceEntity = Optional.empty();
     try {
-      // Used LocalDateTime instead of Instant due to the behaviour of H2 database that doesn't work
-      // fine work with UTC time. PostgreSQL handles date/time types much more robustly than H2, so
-      // in case of using it, it wouldn't be required this conversion
-      LocalDateTime localDateTime = LocalDateTime.ofInstant(pricingDate, ZoneOffset.UTC);
-      priceEntities = repository.findByParameters(brandId, productId, localDateTime);
+      optionalPriceEntity = repository.findByParameters(brandId, productId, pricingDate);
     } catch (Throwable e) {
       final String errorMessage = String.format("Error finding price for brandId: %s; "
           + "productId: %s;  pricingDate: %s", brandId, productId, pricingDate);
@@ -50,11 +45,10 @@ public class PriceRepositoryImpl implements PriceRepository {
       throw new EntityPersistenceException(errorMessage);
     }
 
-    return mapper.map(priceEntities.stream()
-        .max(Comparator.comparing(PriceEntity::getPriority))
-        .orElseThrow(
-            () -> new EntityNotFoundException(
-                "Product Not found for the required date-time")));
+    return mapper.map(
+        optionalPriceEntity.orElseThrow(() -> new EntityNotFoundException(
+            "Product Not found for the required date-time"))
+    );
   }
 
   @Override
@@ -62,4 +56,30 @@ public class PriceRepositoryImpl implements PriceRepository {
     return repository.findAll().stream().map(mapper::map).toList();
   }
 
+  @Override
+  public Price createPrice(Price price) {
+    // TODO: This is method is added to show/test the cache -> Some additional implementation could
+    //  be missing, and no tests have been implemented, so all that have to be done in Next steps.
+    try {
+      PriceEntity priceEntity = mapper.map(price);
+      priceEntity = repository.save(priceEntity);
+      return mapper.map(priceEntity);
+    } catch (Throwable e) {
+      final String errorMessage = String.format("Error saving price for %s", price);
+      log.warn(errorMessage, e);
+      throw new EntityPersistenceException(errorMessage);
+    }
+  }
+
+  @Override
+  public Price update(Price price) {
+    // TODO: Implement logic (Next steps)
+    throw new UnsupportedOperationException("Method not implemented yet");
+  }
+
+  @Override
+  public void delete(Price price) {
+    // TODO: Implement logic (Next steps)
+    throw new UnsupportedOperationException("Method not implemented yet");
+  }
 }
