@@ -1,6 +1,11 @@
 server:
-  port: 7001
-
+  port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,metrics"
+      base-path: "/actuator"
 spring:
   application:
     name: PricesJavaTest

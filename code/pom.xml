@@ -121,6 +121,11 @@
         <type>pom</type>
         <version>${spring-cloud.version}</version>
       </dependency>
+      <dependency>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>3.4.5</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <groupId>dev.gin.hexagonal.example</groupId>

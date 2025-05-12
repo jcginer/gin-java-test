@@ -6,7 +6,6 @@
 
   <build>
     <plugins>
-      <!-- Plugin para generar código a partir del contrato OpenAPI -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
@@ -26,15 +25,17 @@
                   @lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor;@lombok.Builder
                 </additionalModelTypeAnnotations>
                 <generateModelMethods>false
-                </generateModelMethods> <!-- esto no siempre tiene efecto -->
+                </generateModelMethods>
                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
                 <interfaceOnly>true</interfaceOnly>
                 <jakarta>true</jakarta>
                 <library>spring-boot</library>
-                <useSpringBoot3>true</useSpringBoot3>  <!-- ESTA ES LA CLAVE -->
+                <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
               <generatorName>spring</generatorName>
-              <inputSpec>api-contracts/rest/v1/api.yml</inputSpec>
+              <!--<inputSpec>api-contracts/rest/v1/api.yml</inputSpec>-->
+              <!--<inputSpec>${project.basedir}/api-contracts/rest/v1/api.yml</inputSpec>-->
+              <inputSpec>${project.basedir}/../../api-contracts/rest/v1/api.yml</inputSpec>
               <library>spring-boot</library>
               <modelPackage>dev.gin.hexagonal.example.rest.ports.api.model</modelPackage>
               <output>${project.build.directory}/generated-sources/openapi</output>
@@ -44,7 +45,7 @@
             </goals>
           </execution>
         </executions>
-        <groupId>org.openapitools</groupId> <!-- o la última estable -->
+        <groupId>org.openapitools</groupId>
         <version>7.4.0</version>
       </plugin>
       <plugin>
