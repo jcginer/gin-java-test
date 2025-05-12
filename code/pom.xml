@@ -16,6 +16,13 @@
             </exclude>
           </excludes>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
         <groupId>org.springframework.boot</groupId>
       </plugin>
       <plugin>
