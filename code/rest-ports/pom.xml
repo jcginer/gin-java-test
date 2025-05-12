@@ -34,7 +34,7 @@
                 <useSpringBoot3>true</useSpringBoot3>  <!-- ESTA ES LA CLAVE -->
               </configOptions>
               <generatorName>spring</generatorName>
-              <inputSpec>${project.basedir}/../../api-contracts/rest/v1/api.yml</inputSpec>
+              <inputSpec>api-contracts/rest/v1/api.yml</inputSpec>
               <library>spring-boot</library>
               <modelPackage>dev.gin.hexagonal.example.rest.ports.api.model</modelPackage>
               <output>${project.build.directory}/generated-sources/openapi</output>
