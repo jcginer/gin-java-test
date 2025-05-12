@@ -70,16 +70,4 @@ public class PriceRepositoryImpl implements PriceRepository {
       throw new EntityPersistenceException(errorMessage);
     }
   }
-
-  @Override
-  public Price update(Price price) {
-    // TODO: Implement logic (Next steps)
-    throw new UnsupportedOperationException("Method not implemented yet");
-  }
-
-  @Override
-  public void delete(Price price) {
-    // TODO: Implement logic (Next steps)
-    throw new UnsupportedOperationException("Method not implemented yet");
-  }
 }

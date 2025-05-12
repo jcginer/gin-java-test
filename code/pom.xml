@@ -5,7 +5,6 @@
   <artifactId>gin-hexagonal-example</artifactId>
 
   <build>
-    <!--    <pluginManagement>-->
     <plugins>
       <plugin>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -32,8 +31,46 @@
         <groupId>org.apache.maven.plugins</groupId>
         <version>3.5.2</version>
       </plugin>
+      <plugin>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <id>prepare-agent</id>
+          </execution>
+
+          <execution>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <id>report</id>
+            <phase>prepare-package</phase>
+          </execution>
+          <execution>
+            <configuration>
+              <excludes>
+                <exclude>dev/gin/hexagonal/example/Application*</exclude>
+                <exclude>dev/gin/hexagonal/example/domain/Price*</exclude>
+                <exclude>dev/gin/hexagonal/example/usecases/dto/**</exclude>
+                <exclude>dev/gin/hexagonal/example/rest/ports/api/**</exclude>
+                <exclude>dev/gin/hexagonal/example/infrastructure/repositories/entity/**</exclude>
+                <exclude>dev/gin/hexagonal/example/infrastructure/cache/**</exclude>
+              </excludes>
+            </configuration>
+            <goals>
+              <goal>report-aggregate</goal>
+            </goals>
+            <id>report-aggregate</id>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+        <groupId>org.jacoco</groupId>
+        <version>0.8.11</version>
+      </plugin>
     </plugins>
-    <!--    </pluginManagement>-->
   </build>
 
   <dependencies>

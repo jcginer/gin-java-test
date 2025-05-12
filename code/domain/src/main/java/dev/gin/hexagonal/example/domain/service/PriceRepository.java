@@ -15,8 +15,4 @@ public interface PriceRepository {
   List<Price> findAll();
 
   Price createPrice(final Price price);
-
-  Price update(final Price price);
-
-  void delete(final Price price);
 }
