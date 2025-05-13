@@ -33,9 +33,9 @@
                 <useSpringBoot3>true</useSpringBoot3>
               </configOptions>
               <generatorName>spring</generatorName>
-              <!--<inputSpec>api-contracts/rest/v1/api.yml</inputSpec>-->
-              <!--<inputSpec>${project.basedir}/api-contracts/rest/v1/api.yml</inputSpec>-->
-              <inputSpec>${project.basedir}/../../api-contracts/rest/v1/api.yml</inputSpec>
+              <inputSpec>${project.basedir}/../../api-contracts/rest/v1/api.yml
+              </inputSpec> <!--mvn spring-boot:run-->
+              <!--<inputSpec>api-contracts/rest/v1/api.yml</inputSpec>--> <!--Docker-->
               <library>spring-boot</library>
               <modelPackage>dev.gin.hexagonal.example.rest.ports.api.model</modelPackage>
               <output>${project.build.directory}/generated-sources/openapi</output>
