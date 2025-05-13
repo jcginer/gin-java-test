@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>rest-ports</artifactId>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>21</source>
+          <target>21</target>
+        </configuration>
+        <version>3.11.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <apiPackage>dev.gin.hexagonal.example.rest.ports.api</apiPackage>
+              <configOptions>
+                <additionalModelTypeAnnotations>
+                  @lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor;@lombok.Builder
+                </additionalModelTypeAnnotations>
+                <generateModelMethods>false
+                </generateModelMethods>
+                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                <interfaceOnly>true</interfaceOnly>
+                <jakarta>true</jakarta>
+                <library>spring-boot</library>
+                <useSpringBoot3>true</useSpringBoot3>
+              </configOptions>
+              <generatorName>spring</generatorName>
+              <inputSpec>${project.basedir}/../../api-contracts/rest/v1/api.yml
+              </inputSpec> <!--mvn spring-boot:run-->
+              <!--<inputSpec>api-contracts/rest/v1/api.yml</inputSpec>--> <!--Docker-->
+              <library>spring-boot</library>
+              <modelPackage>dev.gin.hexagonal.example.rest.ports.api.model</modelPackage>
+              <output>${project.build.directory}/generated-sources/openapi</output>
+            </configuration>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <groupId>org.openapitools</groupId>
+        <version>7.4.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <id>prepare-agent</id>
+            <phase>initialize</phase>
+          </execution>
+        </executions>
+        <groupId>org.jacoco</groupId>
+        <version>0.8.11</version>
+      </plugin>
+    </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
+    <sourceDirectory>src/main/java</sourceDirectory>
+  </build>
+  <dependencies>
+    <dependency>
+      <artifactId>usecases</artifactId>
+      <groupId>${project.groupId}</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-cloud-starter-config</artifactId>
+      <groupId>org.springframework.cloud</groupId>
+    </dependency>
+
+    <!-- OpenAPI/Swagger Annotations -->
+    <dependency>
+      <artifactId>swagger-annotations</artifactId>
+      <groupId>io.swagger.core.v3</groupId>
+      <version>2.2.21</version>
+    </dependency>
+
+    <!-- Nullable wrapper (for OptionalNullable<T>) -->
+    <dependency>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <groupId>org.openapitools</groupId>
+      <version>0.2.6</version>
+    </dependency>
+
+    <!-- lombok -->
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <scope>provided</scope>
+      <version>1.18.30</version>
+    </dependency>
+
+    <!-- mapstruct -->
+    <dependency>
+      <artifactId>mapstruct</artifactId>
+      <groupId>org.mapstruct</groupId>
+      <version>1.6.3</version>
+    </dependency>
+    <dependency>
+      <artifactId>mapstruct-processor</artifactId>
+      <groupId>org.mapstruct</groupId>
+      <optional>true</optional>
+      <version>1.6.3</version>
+    </dependency>
+
+  </dependencies>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>Rest Ports Module</name>
+
+  <parent>
+    <artifactId>gin-hexagonal-example</artifactId>
+    <groupId>dev.gin.hexagonal.example</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+  </properties>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <groupId>org.jacoco</groupId>
+        <version>0.8.11</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

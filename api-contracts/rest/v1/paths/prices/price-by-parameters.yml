@@ -1,0 +1,37 @@
+get:
+  operationId: get-product-price
+  summary: Gets the price of a product on the apply date using query parameters
+  description: Returns the price of a provided product (+ brandId) that has to be applied on the provided apply date
+  parameters:
+    - in: query
+      name: pricingDate
+      schema:
+        type: string
+        format: date-time
+      required: true
+      description: Apply date
+    - in: query
+      name: productId
+      schema:
+        type: number
+      required: true
+      description: Product identifier
+    - in: query
+      name: brandId
+      schema:
+        type: number
+      required: true
+      description: Brand identifier
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/price/PriceResponse.yml#/PriceResponse'
+    '400':
+      description: Bad Request
+    '404':
+      description: Not Found
+    '500':
+      description: Internal Server Error
